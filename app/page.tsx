@@ -4,7 +4,8 @@ import { useChat } from "ai/react";
 import { useState } from "react";
 
 export default function Home() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
+  const [showAlert, setShowAlert] = useState(false);
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
       api: "/api/chat",
@@ -31,7 +32,18 @@ export default function Home() {
           >
             {theme === "light" ? "􀆭" : "􀆹"}
           </button>
-          <button className="cursor-pointer">􀈂</button>
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              const url = window.location.href;
+              navigator.clipboard.writeText(url).then(() => {
+                setShowAlert(true);
+                setTimeout(() => setShowAlert(false), 2500);
+              });
+            }}
+          >
+            􀈂
+          </button>
         </div>
       </div>
 
@@ -111,6 +123,13 @@ export default function Home() {
           </h3>
         </div>
       </form>
+
+      {/* Alert */}
+      {showAlert && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 text-[#FFFFFF] bg-[#468432] text-sm px-3 py-1.5 rounded-[100px] font-bold tracking-tighter shadow-lg">
+          Link copied
+        </div>
+      )}
     </div>
   );
 }
