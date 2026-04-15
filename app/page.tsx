@@ -13,10 +13,10 @@ export default function Home() {
 
   return (
     <div
-      className={`relative ${theme === "light" ? "bg-[#FFFFFF]" : "bg-[#1E1E1E]"} min-h-screen w-screen`}
+      className={`relative ${theme === "light" ? "bg-[#FFFFFF]" : "bg-[#1E1E1E]"} min-h-screen w-full`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-5">
+      <div className="flex items-center justify-between px-5 pt-5 pb-2">
         <a
           href=""
           className={`text-base font-bold tracking-tighter border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_6px_14px_rgba(0,0,0,0.12)]" : "bg-[#272727] text-zinc-100 border-[#3E3E3E] shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} px-4 py-1.5 rounded-[100px]`}
@@ -47,23 +47,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center ">
-        <div
-          className="w-full max-w-226 px-5"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            marginBottom: 24,
-          }}
-        >
+      <div className="relative flex flex-col w-screen items-center px-5 h-[calc(100vh-235px)] md:h-[calc(100vh-200px)] py-10 gap-3 ">
+        {/* Scrollable messages container */}
+        <div className="flex flex-col w-full items-center gap-3 overflow-y-scroll h-full pb-25">
           {messages.map((m) => (
             <div
               key={m.id}
-              style={{
-                display: "flex",
-                justifyContent: m.role === "user" ? "flex-end" : "flex-start",
-              }}
+              className={`flex ${m.role === "user" ? "justify-end" : "justify-start"} w-full max-w-200`}
             >
               <div
                 className={`font-medium max-w-full px-3.5 py-2.5 rounded-xl text-[14px] leading-[1.6] ${
@@ -78,13 +68,22 @@ export default function Home() {
               </div>
             </div>
           ))}
-
           {isLoading && (
-            <div style={{ fontSize: 13, color: "#888" }}>
+            <div className="text-[13px] text-[#888]">
               4d616e616e thinking...
             </div>
           )}
         </div>
+
+        {/* Fade gradient overlay — pinned to bottom */}
+        <div
+          className="absolute bottom-10 md:bottom-10 left-0 w-full h-25 pointer-events-none "
+          style={{
+            background: `linear-gradient(to bottom, transparent, ${
+              theme === "light" ? "#FFFFFF" : "#1E1E1E"
+            })`,
+          }}
+        />
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -118,8 +117,7 @@ export default function Home() {
             </div>
           </div>
           <h3 className="text-center text-[#8F8F8F] text-xs mt-2">
-            ManGPT is an AI and is currenlty running on Llama 3.3. please double
-            check every response.
+            ManGPT is an AI and is currenlty running on Llama 3.3.
           </h3>
         </div>
       </form>
