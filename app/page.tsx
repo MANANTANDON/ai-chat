@@ -16,15 +16,15 @@ export default function Home() {
       className={`relative ${theme === "light" ? "bg-[#FFFFFF]" : "bg-[#1E1E1E]"} min-h-screen w-full`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-5 pt-5 pb-2">
+      <div className="flex items-center justify-between px-5 pt-5 pb-2 z-10">
         <a
           href=""
-          className={`text-base font-bold tracking-tighter border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_6px_14px_rgba(0,0,0,0.12)]" : "bg-[#272727] text-zinc-100 border-[#3E3E3E] shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} px-4 py-1.5 rounded-[100px]`}
+          className={`text-base font-bold tracking-tighter border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] text-zinc-100 border-[#3E3E3E] shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} px-4 py-1.5 rounded-[100px]`}
         >
           ManGPT <span className="text-xs text-[#8F8F8F]">􀆊</span>
         </a>
         <div
-          className={`flex items-center gap-4 border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_6px_14px_rgba(0,0,0,0.12)]" : "bg-[#272727] border-[#3E3E3E] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-sm rounded-[100px] px-3 py-1.5 `}
+          className={`flex items-center gap-4 border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] border-[#3E3E3E] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-sm rounded-[100px] px-3 py-1.5 `}
         >
           <button
             className="cursor-pointer"
@@ -47,9 +47,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative flex flex-col w-screen items-center px-5 h-[calc(100vh-235px)] md:h-[calc(100vh-200px)] py-10 gap-3 ">
+      <div className="relative flex flex-col w-screen items-center  h-[calc(100vh-215px)] gap-3">
         {/* Scrollable messages container */}
-        <div className="flex flex-col w-full items-center gap-3 overflow-y-scroll h-full pb-25">
+        <div className="flex flex-col w-full items-center gap-5 overflow-y-scroll h-full pb-20 pt-10 px-5">
           {messages.map((m) => (
             <div
               key={m.id}
@@ -77,9 +77,17 @@ export default function Home() {
 
         {/* Fade gradient overlay — pinned to bottom */}
         <div
-          className="absolute bottom-10 md:bottom-10 left-0 w-full h-25 pointer-events-none "
+          className="absolute bottom-0 left-0 w-full h-15 pointer-events-none "
           style={{
             background: `linear-gradient(to bottom, transparent, ${
+              theme === "light" ? "#FFFFFF" : "#1E1E1E"
+            })`,
+          }}
+        />
+        <div
+          className="absolute top-0 left-0 w-full h-15 pointer-events-none "
+          style={{
+            background: `linear-gradient(to top, transparent, ${
               theme === "light" ? "#FFFFFF" : "#1E1E1E"
             })`,
           }}
@@ -87,7 +95,7 @@ export default function Home() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-226 px-4">
+        <div className="fixed bottom-2 left-1/2 -translate-x-1/2 w-full max-w-226 px-4">
           <div
             className={`p-1 rounded-2xl flex flex-col border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_6px_14px_rgba(0,0,0,0.12)]" : "bg-[#1F1F1F] text-zinc-100 border-[#3C3C3C] shadow-[0_6px_14px_rgba(0,0,0,0.35)]"}`}
           >
