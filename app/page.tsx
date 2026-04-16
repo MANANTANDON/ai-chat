@@ -1,10 +1,11 @@
 "use client";
 
+import { useTheme } from "@/context/ThemeContext";
 import { useChat } from "ai/react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [theme, setTheme] = useState("light");
+  const { theme, setTheme } = useTheme();
   const [showAlert, setShowAlert] = useState(false);
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
@@ -94,7 +95,6 @@ export default function Home() {
           )}
         </div>
 
-        {/* Fade gradient overlay — pinned to bottom */}
         <div
           className="absolute bottom-0 left-0 w-full h-15 pointer-events-none "
           style={{
