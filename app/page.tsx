@@ -24,7 +24,7 @@ export default function Home() {
           ManGPT <span className="text-xs text-[#8F8F8F]">􀆊</span>
         </a>
         <div
-          className={`flex items-center gap-4 border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] border-[#3E3E3E] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-sm rounded-[100px] px-3 py-1.5 `}
+          className={`flex items-center gap-4 border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] border-[#3E3E3E] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-base rounded-[100px] px-3 py-1.5 `}
         >
           <button
             className="cursor-pointer"
@@ -102,6 +102,12 @@ export default function Home() {
             <textarea
               value={input}
               onChange={handleInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit(e as any);
+                }
+              }}
               placeholder="Ask anything..."
               disabled={isLoading}
               rows={2}
