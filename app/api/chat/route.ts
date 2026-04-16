@@ -22,8 +22,12 @@ export async function POST(req: Request) {
             .describe("The math expression to calculate. Example: 2349 * 8743"),
         }),
         execute: async ({ expression }) => {
-          const result = eval(expression);
-          return { result };
+          try {
+            const result = Function(`"use strict"; return (${expression})`)();
+            return { result };
+          } catch {
+            return { result: "Invalid expression" };
+          }
         },
       }),
     },
