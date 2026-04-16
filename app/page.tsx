@@ -1,7 +1,7 @@
 "use client";
 
 import { useChat } from "ai/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [theme, setTheme] = useState("light");
@@ -11,12 +11,28 @@ export default function Home() {
       api: "/api/chat",
     });
 
+  useEffect(() => {
+    console.log(messages.filter((item) => item.content !== ""));
+  }, [messages]);
+
+  const formatAIContent = (text: string) => {
+    return text
+      .replace(/\\n/g, "\n")
+      .replace(
+        /\*\*(.*?)\*\*/g,
+        "<h3 class='font-semibold text-lg mt-4 mb-2'>$1</h3>",
+      )
+      .replace(/^\* (.*)$/gm, "<li class='ml-5 list-disc'>$1</li>")
+      .replace(/(<li[\s\S]*<\/li>)/g, "<ul class='space-y-1 mb-3'>$1</ul>")
+      .replace(/\n/g, "<br/>");
+  };
+
   return (
     <div
       className={`relative ${theme === "light" ? "bg-[#FFFFFF]" : "bg-[#1E1E1E]"} min-h-screen w-full`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-5 pt-5 pb-2 z-10">
+      <div className="flex items-center justify-between px-5 pt-5 pb-2 z-10 absolute left-0 right-0 top-0">
         <a
           href=""
           className={`text-base font-bold tracking-tighter border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] text-zinc-100 border-[#3E3E3E] shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} px-4 py-1.5 rounded-[100px]`}
@@ -24,16 +40,16 @@ export default function Home() {
           ManGPT <span className="text-xs text-[#8F8F8F]">􀆊</span>
         </a>
         <div
-          className={`flex items-center gap-4 border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] border-[#3E3E3E] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-base rounded-[100px] px-3 py-1.5 `}
+          className={`flex items-center border px-0.5 py-0.5 gap-1 ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] border-[#3E3E3E] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-base rounded-[100px]`}
         >
           <button
-            className="cursor-pointer"
+            className={`cursor-pointer ${theme === "light" ? "hover:bg-zinc-400/10" : "hover:bg-zinc-100/10"} px-1.5 py-1 rounded-[100px]`}
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
           >
             {theme === "light" ? "􀆭" : "􀆹"}
           </button>
           <button
-            className="cursor-pointer"
+            className={`cursor-pointer ${theme === "light" ? "hover:bg-zinc-400/10" : "hover:bg-zinc-100/10"} px-1.5 py-1 rounded-[100px]`}
             onClick={() => {
               const url = window.location.href;
               navigator.clipboard.writeText(url).then(() => {
@@ -47,27 +63,30 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative flex flex-col w-screen items-center  h-[calc(100vh-215px)] gap-3">
+      <div className="relative flex flex-col w-screen items-center  h-[calc(100vh-150px)] gap-3">
         {/* Scrollable messages container */}
-        <div className="flex flex-col w-full items-center gap-5 overflow-y-scroll h-full pb-20 pt-10 px-5">
-          {messages.map((m) => (
-            <div
-              key={m.id}
-              className={`flex ${m.role === "user" ? "justify-end" : "justify-start"} w-full max-w-200`}
-            >
+        <div className="flex flex-col w-full items-center gap-5 overflow-y-scroll h-full pb-20 pt-20 px-5">
+          {messages
+            ?.filter((item) => item.content !== "")
+            ?.map((m) => (
               <div
-                className={`font-medium max-w-full px-3.5 py-2.5 rounded-xl text-[14px] leading-[1.6] ${
-                  m.role === "user"
-                    ? "bg-[#FFF6D2] text-[#795100]"
-                    : theme === "light"
-                      ? "bg-[#F5F5F5] text-[#272727]"
-                      : "bg-[#2A2A2A] text-[#FFFFFF]"
-                }`}
+                key={m.id}
+                className={`flex ${m.role === "user" ? "justify-end" : "justify-start"} w-full max-w-200`}
               >
-                {m.content}
+                <div
+                  className={`font-medium max-w-full px-3.5 py-2.5 rounded-xl text-[14px] leading-[1.6] ${
+                    m.role === "user"
+                      ? "bg-[#FFF6D2] text-[#795100]"
+                      : theme === "light"
+                        ? "bg-[#F5F5F5] text-[#272727]"
+                        : "bg-[#2A2A2A] text-[#FFFFFF]"
+                  }`}
+                  dangerouslySetInnerHTML={{
+                    __html: formatAIContent(m?.content),
+                  }}
+                />
               </div>
-            </div>
-          ))}
+            ))}
           {isLoading && (
             <div className="text-[13px] text-[#888]">
               4d616e616e thinking...
