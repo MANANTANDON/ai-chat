@@ -35,12 +35,12 @@ export default function Home() {
       <div className="flex items-center justify-between px-5 pt-5 pb-2 z-10 absolute left-0 right-0 top-0">
         <a
           href=""
-          className={`text-base font-bold tracking-tighter border ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] text-zinc-100 border-[#3E3E3E] shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} px-4 py-1.5 rounded-[100px]`}
+          className={`text-base font-bold tracking-tighter border ${theme === "light" ? "bg-[#FEFEFE20] text-[#272727] border-[#FFFFFF30] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#27272720] text-zinc-100 border-[#3E3E3E30] shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} px-4 py-1.5 rounded-[100px] backdrop-blur-sm`}
         >
           ManGPT <span className="text-xs text-[#8F8F8F]">􀆊</span>
         </a>
         <div
-          className={`flex items-center border px-0.5 py-0.5 gap-1 ${theme === "light" ? "bg-[#FEFEFE] text-[#272727] border-[#FFFFFF] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#272727] border-[#3E3E3E] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-base rounded-[100px]`}
+          className={`flex items-center border px-0.5 py-0.5 gap-1 ${theme === "light" ? "bg-[#FEFEFE20] text-[#272727] border-[#FFFFFF30] shadow-[0_4px_6px_rgba(0,0,0,0.10)]" : "bg-[#27272720] border-[#3E3E3E30] text-zinc-100 shadow-[0_6px_14px_rgba(0,0,0,0.35)]"} text-base rounded-[100px] backdrop-blur-sm `}
         >
           <button
             className={`cursor-pointer ${theme === "light" ? "hover:bg-zinc-400/10" : "hover:bg-zinc-100/10"} px-1.5 py-1 rounded-[100px]`}
