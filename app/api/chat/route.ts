@@ -1,6 +1,6 @@
 import { groq } from "@ai-sdk/groq";
-import { streamText } from "ai";
-// import { z } from "zod";
+import { streamText, tool } from "ai";
+import { z } from "zod";
 
 export const runtime = "edge";
 
@@ -9,8 +9,24 @@ export async function POST(req: Request) {
 
   const result = await streamText({
     model: groq("llama-3.1-8b-instant"),
-    system: "You are a helpful assistant.",
+    system:
+      "You are a helpful assistant. You can answer any question. When the user asks a math calculation, use the calculator tool instead of calculating yourself.",
     messages: messages,
+    tools: {
+      calculator: tool({
+        description:
+          "Use this tool for any math calculation — addition, subtraction, multiplication, division.",
+        parameters: z.object({
+          expression: z
+            .string()
+            .describe("The math expression to calculate. Example: 2349 * 8743"),
+        }),
+        execute: async ({ expression }) => {
+          const result = eval(expression);
+          return { result };
+        },
+      }),
+    },
     maxSteps: 3,
   });
 
