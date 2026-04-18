@@ -1,7 +1,6 @@
 import { groq } from "@ai-sdk/groq";
 import { streamText, tool } from "ai";
 import { z } from "zod";
-import { evaluate } from "mathjs";
 
 export const runtime = "edge";
 
@@ -84,7 +83,8 @@ export async function POST(req: Request) {
             .describe("The math expression to calculate. Example: 2349 * 8743"),
         }),
         execute: async ({ expression }) => {
-          const result = evaluate(expression);
+          const sanitized = expression.replace(/[^0-9+\-*/.() ]/g, "");
+          const result = Function(`"use strict"; return (${sanitized})`)();
           return { result };
         },
       }),
